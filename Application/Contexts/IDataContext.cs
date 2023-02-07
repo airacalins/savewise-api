@@ -7,7 +7,6 @@ namespace Application.Contexts
     {
         DbSet<Account> Accounts {get;set;}
         DbSet<Transaction> Transactions {get;set;}
-
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
