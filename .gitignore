@@ -35,3 +35,7 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+API/savewise.db
+.gitignore
+API/savewise.db-wal
+API/savewise.db-shm

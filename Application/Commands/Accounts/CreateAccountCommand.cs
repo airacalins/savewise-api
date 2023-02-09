@@ -16,14 +16,13 @@ namespace Application.Commands.Accounts
     public async Task ExecuteCommand(CreateAccountDto input)
     {
         var account = new Account {
-            Id = input.Id,
+            Id = Guid.NewGuid(),
             Title = input.Title,
             Balance = 0,
             DateCreated = DateTime.Now,
         };
 
       _accountRepository.Add(account);
-
       await _accountRepository.SaveChangesAsync();
     }
   }
