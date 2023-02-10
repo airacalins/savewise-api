@@ -16,9 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database Connection
-builder.Services.AddDbContext<DataContext>(opt => 
+builder.Services.AddDbContext<DataContext>(opt =>
     {
-        opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+      opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
 );
 
@@ -26,6 +26,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 builder.Services.AddScoped<IDataContext, DataContext>();
 
 // Dependency Injection (CQRS)
+builder.Services.AddScoped<IGetAccountsCommand, GetAccountsCommand>();
 builder.Services.AddScoped<ICreateAccountCommand, CreateAccountCommand>();
 
 // Dependency Injection (Repository)
@@ -36,8 +37,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
