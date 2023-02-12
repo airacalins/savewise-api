@@ -15,18 +15,21 @@ namespace API.Controllers.Accounts
         private readonly IGetAccountCommand _getAccountCommand;
         private readonly ICreateAccountCommand _createAccountCommand;
         private readonly IUpdateAccountCommand _updateAccountCommand;
+        private readonly IDeleteAccountCommand _deleteAccountCommand;
 
         public AccountsController(
           IGetAccountsCommand getAccountsCommand,
           IGetAccountCommand getAccountCommand,
           ICreateAccountCommand createAccountCommand,
-          IUpdateAccountCommand updateAccountCommand
+          IUpdateAccountCommand updateAccountCommand,
+          IDeleteAccountCommand deleteAccountCommand
         )
         {
             _getAccountsCommand = getAccountsCommand;
             _getAccountCommand = getAccountCommand;
             _createAccountCommand = createAccountCommand;
             _updateAccountCommand = updateAccountCommand;
+            _deleteAccountCommand = deleteAccountCommand;
         }
 
         [HttpGet]
@@ -54,6 +57,13 @@ namespace API.Controllers.Accounts
         public async Task<ActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountInputModel input)
         {
             await _updateAccountCommand.ExecuteCommand(id, input.ToDto());
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAccount([FromRoute] Guid id)
+        {
+            await _deleteAccountCommand.ExecuteCommand(id);
             return Ok();
         }
 

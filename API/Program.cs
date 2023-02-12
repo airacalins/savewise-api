@@ -29,6 +29,7 @@ builder.Services.AddScoped<IGetAccountsCommand, GetAccountsCommand>();
 builder.Services.AddScoped<IGetAccountCommand, GetAccountCommand>();
 builder.Services.AddScoped<ICreateAccountCommand, CreateAccountCommand>();
 builder.Services.AddScoped<IUpdateAccountCommand, UpdateAccountCommand>();
+builder.Services.AddScoped<IDeleteAccountCommand, DeleteAccountCommand>();
 
 // Dependency Injection (Repository)
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();

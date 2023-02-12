@@ -38,6 +38,14 @@ namespace Application.Repositories.AccountRepository
             account = item;
         }
 
+        public async Task Delete(Guid id)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+
+            if (account == null) throw new NullReferenceException();
+            _context.Accounts.Remove(account);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

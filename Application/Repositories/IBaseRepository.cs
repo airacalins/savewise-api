@@ -8,6 +8,7 @@ namespace Application.Repositories
         Task<T> GetById(Guid id);
         void Add(T item);
         Task Update(T item);
+        Task Delete(Guid id);
         Task SaveChangesAsync();
     }
 }
