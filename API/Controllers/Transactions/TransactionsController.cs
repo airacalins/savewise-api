@@ -18,7 +18,7 @@ namespace API.Controllers.Transactions
     [HttpPost]
     public async Task<ActionResult> Create([FromRoute] Guid accountId, CreateTransactionInputModel item)
     {
-      await _createTransactionCommand.ExecuteCommand(accountId, item.ToTransactionEntity());
+      await _createTransactionCommand.ExecuteCommand(accountId, item.ToTransactionDto());
       return Ok();
     }
   }

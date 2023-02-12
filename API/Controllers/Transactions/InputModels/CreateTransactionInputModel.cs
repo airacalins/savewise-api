@@ -9,7 +9,7 @@ namespace API.Controllers.Transactions.InputModels
     public double Amount { get; set; }
     public DateTime DateCreated { get; set; }
 
-    public CreateTransactionDto ToTransactionEntity()
+    public CreateTransactionDto ToTransactionDto()
     {
       var transaction = new CreateTransactionDto
       {
