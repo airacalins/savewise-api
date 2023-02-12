@@ -7,6 +7,7 @@ namespace Application.Repositories
         Task<List<T>> GetAll();
         Task<T> GetById(Guid id);
         void Add(T item);
+        Task Update(T item);
         Task SaveChangesAsync();
     }
 }

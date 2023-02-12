@@ -1,3 +1,4 @@
+using API.Controllers.Accounts.InputModels;
 using API.Controllers.Accounts.ViewModel;
 using API.Controllers.InputModels;
 using Application.Commands.Accounts.Interfaces;
@@ -13,15 +14,19 @@ namespace API.Controllers.Accounts
         private readonly IGetAccountsCommand _getAccountsCommand;
         private readonly IGetAccountCommand _getAccountCommand;
         private readonly ICreateAccountCommand _createAccountCommand;
+        private readonly IUpdateAccountCommand _updateAccountCommand;
+
         public AccountsController(
           IGetAccountsCommand getAccountsCommand,
           IGetAccountCommand getAccountCommand,
-          ICreateAccountCommand createAccountCommand
+          ICreateAccountCommand createAccountCommand,
+          IUpdateAccountCommand updateAccountCommand
         )
         {
             _getAccountsCommand = getAccountsCommand;
             _getAccountCommand = getAccountCommand;
             _createAccountCommand = createAccountCommand;
+            _updateAccountCommand = updateAccountCommand;
         }
 
         [HttpGet]
@@ -44,5 +49,13 @@ namespace API.Controllers.Accounts
             await _createAccountCommand.ExecuteCommand(input.ToDto());
             return Ok();
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountInputModel input)
+        {
+            await _updateAccountCommand.ExecuteCommand(id, input.ToDto());
+            return Ok();
+        }
+
     }
 }

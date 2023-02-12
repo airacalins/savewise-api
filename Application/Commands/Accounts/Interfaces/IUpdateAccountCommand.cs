@@ -1,10 +1,9 @@
 using Application.Commands.Accounts.Dtos;
-using Domain;
 
 namespace Application.Commands.Accounts.Interfaces
 {
-    public interface IGetAccountsCommand
+    public interface IUpdateAccountCommand
     {
-        Task<List<AccountDto>> ExecuteCommand();
+        Task ExecuteCommand(Guid id, UpdateAccountDto account);
     }
 }

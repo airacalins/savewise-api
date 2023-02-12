@@ -1,14 +1,14 @@
 using Application.Commands.Accounts.Dtos;
 
-namespace API.Controllers.InputModels
+namespace API.Controllers.Accounts.InputModels
 {
-    public class CreateAccountInputModel
+    public class UpdateAccountInputModel
     {
         public string Title { get; set; } = string.Empty;
 
-        public CreateAccountDto ToDto()
+        public UpdateAccountDto ToDto()
         {
-            var account = new CreateAccountDto
+            var account = new UpdateAccountDto
             {
                 Title = Title,
             };

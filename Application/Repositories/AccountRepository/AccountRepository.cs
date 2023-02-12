@@ -16,12 +16,11 @@ namespace Application.Repositories.AccountRepository
             return await _context.Accounts.ToListAsync();
         }
 
-
         public async Task<Account> GetById(Guid id)
         {
-            var account = await _context.Accounts.FirstAsync(account => account.Id == id);
+            var account = await _context.Accounts.FirstOrDefaultAsync(account => account.Id == id);
 
-            if (account == null) throw new NotImplementedException();
+            if (account == null) throw new NullReferenceException();
 
             return account;
         }
@@ -31,10 +30,17 @@ namespace Application.Repositories.AccountRepository
             _context.Accounts.Add(item);
         }
 
+        public async Task Update(Account item)
+        {
+            var account = await _context.Accounts.FindAsync(item.Id);
+
+            if (account == null) throw new NullReferenceException();
+            account = item;
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
-
     }
 }
