@@ -1,8 +1,21 @@
+using Domain;
+
 namespace Application.Commands.Accounts.Dtos
 {
-    public class CreateAccountDto
+  public class CreateAccountDto
+  {
+    public string Title { get; set; } = String.Empty;
+
+    public Account ToAccountEntity()
     {
-        public Guid Id { get; set; }
-        public string Title { get; set; } = String.Empty;
+      var account = new Account
+      {
+        Id = Guid.NewGuid(),
+        Title = Title,
+        DateCreated = DateTime.Now,
+      };
+
+      return account;
     }
+  }
 }

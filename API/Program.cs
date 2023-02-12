@@ -1,7 +1,10 @@
 using Application.Commands.Accounts;
 using Application.Commands.Accounts.Interfaces;
+using Application.Commands.Transactions;
+using Application.Commands.Transactions.Interfaces;
 using Application.Contexts;
 using Application.Repositories.AccountRepository;
+using Application.Repositories.TransactionRepository;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -17,7 +20,7 @@ builder.Services.AddSwaggerGen();
 // Database Connection
 builder.Services.AddDbContext<DataContext>(opt =>
     {
-        opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+      opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
 );
 
@@ -30,17 +33,19 @@ builder.Services.AddScoped<IGetAccountCommand, GetAccountCommand>();
 builder.Services.AddScoped<ICreateAccountCommand, CreateAccountCommand>();
 builder.Services.AddScoped<IUpdateAccountCommand, UpdateAccountCommand>();
 builder.Services.AddScoped<IDeleteAccountCommand, DeleteAccountCommand>();
+builder.Services.AddScoped<ICreateTransactionCommand, CreateTransactionCommand>();
 
 // Dependency Injection (Repository)
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

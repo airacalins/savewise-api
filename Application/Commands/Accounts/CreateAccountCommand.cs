@@ -5,26 +5,18 @@ using Domain;
 
 namespace Application.Commands.Accounts
 {
-    public class CreateAccountCommand : ICreateAccountCommand
+  public class CreateAccountCommand : ICreateAccountCommand
+  {
+    private readonly IAccountRepository _accountRepository;
+    public CreateAccountCommand(IAccountRepository accountRepository)
     {
-        private readonly IAccountRepository _accountRepository;
-        public CreateAccountCommand(IAccountRepository accountRepository)
-        {
-            _accountRepository = accountRepository;
-        }
-
-        public async Task ExecuteCommand(CreateAccountDto input)
-        {
-            var account = new Account
-            {
-                Id = Guid.NewGuid(),
-                Title = input.Title,
-                Balance = 0,
-                DateCreated = DateTime.Now,
-            };
-
-            _accountRepository.Add(account);
-            await _accountRepository.SaveChangesAsync();
-        }
+      _accountRepository = accountRepository;
     }
+
+    public async Task ExecuteCommand(CreateAccountDto input)
+    {
+      _accountRepository.Add(input.ToAccountEntity());
+      await _accountRepository.SaveChangesAsync();
+    }
+  }
 }
