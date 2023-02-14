@@ -4,6 +4,6 @@ namespace Application.Commands.Accounts.Interfaces
 {
     public interface IGetAccountCommand
     {
-        Task<AccountDto> ExecuteCommand(Guid Id);
+        Task<AccountWithTransactionsDto> ExecuteCommand(Guid Id);
     }
 }
