@@ -34,6 +34,7 @@ builder.Services.AddScoped<ICreateAccountCommand, CreateAccountCommand>();
 builder.Services.AddScoped<IUpdateAccountCommand, UpdateAccountCommand>();
 builder.Services.AddScoped<IDeleteAccountCommand, DeleteAccountCommand>();
 builder.Services.AddScoped<IGetTransactionsCommand, GetTransactionsCommand>();
+builder.Services.AddScoped<IGetTransactionCommand, GetTransactionCommand>();
 builder.Services.AddScoped<ICreateTransactionCommand, CreateTransactionCommand>();
 
 // Dependency Injection (Repository)
