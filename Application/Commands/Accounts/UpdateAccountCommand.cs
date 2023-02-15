@@ -4,24 +4,23 @@ using Application.Repositories.AccountRepository;
 
 namespace Application.Commands.Accounts
 {
-    public class UpdateAccountCommand : IUpdateAccountCommand
+  public class UpdateAccountCommand : IUpdateAccountCommand
+  {
+    private readonly IAccountRepository _accountRepository;
+
+    public UpdateAccountCommand(IAccountRepository accountRepository)
     {
-        private readonly IAccountRepository _accountRepository;
-
-        public UpdateAccountCommand(IAccountRepository accountRepository)
-        {
-            _accountRepository = accountRepository;
-        }
-
-        public async Task ExecuteCommand(Guid id, UpdateAccountDto item)
-        {
-            var account = await _accountRepository.GetById(id);
-
-            if (item == null) throw new NullReferenceException();
-
-            account.Title = item.Title;
-
-            await _accountRepository.SaveChangesAsync();
-        }
+      _accountRepository = accountRepository;
     }
+
+    public async Task ExecuteCommand(Guid id, UpdateAccountDto item)
+    {
+      var account = await _accountRepository.GetById(id);
+
+      if (item == null) throw new NullReferenceException();
+
+      account.Title = item.Title;
+      await _accountRepository.SaveChangesAsync();
+    }
+  }
 }

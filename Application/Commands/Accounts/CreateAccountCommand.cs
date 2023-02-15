@@ -1,7 +1,6 @@
 using Application.Commands.Accounts.Dtos;
 using Application.Commands.Accounts.Interfaces;
 using Application.Repositories.AccountRepository;
-using Domain;
 
 namespace Application.Commands.Accounts
 {
