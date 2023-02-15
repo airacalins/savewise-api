@@ -20,24 +20,27 @@ builder.Services.AddSwaggerGen();
 // Database Connection
 builder.Services.AddDbContext<DataContext>(opt =>
     {
-        opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+      opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
 );
 
 // Dependency Injection
 builder.Services.AddScoped<IDataContext, DataContext>();
 
-// Dependency Injection (CQRS)
+// Dependency Injection - Account
 builder.Services.AddScoped<IGetAccountsCommand, GetAccountsCommand>();
 builder.Services.AddScoped<IGetAccountCommand, GetAccountCommand>();
 builder.Services.AddScoped<ICreateAccountCommand, CreateAccountCommand>();
 builder.Services.AddScoped<IUpdateAccountCommand, UpdateAccountCommand>();
 builder.Services.AddScoped<IDeleteAccountCommand, DeleteAccountCommand>();
+
+// Dependency Injection - Transaction
 builder.Services.AddScoped<IGetTransactionsCommand, GetTransactionsCommand>();
 builder.Services.AddScoped<IGetTransactionCommand, GetTransactionCommand>();
 builder.Services.AddScoped<ICreateTransactionCommand, CreateTransactionCommand>();
+builder.Services.AddScoped<IUpdateTransactionCommand, UpdateTransactionCommand>();
 
-// Dependency Injection (Repository)
+// Dependency Injection - Repository
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
@@ -46,8 +49,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
