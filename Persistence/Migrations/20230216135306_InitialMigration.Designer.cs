@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230215150218_InitialMigration")]
+    [Migration("20230216135306_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -50,7 +50,7 @@ namespace Persistence.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("REAL");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("TransactionType")

@@ -16,7 +16,7 @@ namespace Application.Commands.Transactions.Dtos
         AccountId = AccountId,
         TransactionType = TransactionType,
         Amount = Amount,
-        DateCreated = DateCreated,
+        Date = DateCreated,
       };
 
       return transaction;

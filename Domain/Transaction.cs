@@ -9,6 +9,6 @@ namespace Domain
     public Account Account { get; set; } = default!;
     public TransactionType TransactionType { get; set; }
     public double Amount { get; set; }
-    public DateTime DateCreated { get; set; }
+    public DateTime Date { get; set; }
   }
 }

@@ -20,7 +20,7 @@ namespace Application.Commands.Transactions
 
       transaction.TransactionType = input.TransactionType;
       transaction.Amount = input.Amount;
-      transaction.DateCreated = input.DateCreated;
+      transaction.Date = input.DateCreated;
       await _transactionRepository.SaveChangesAsync();
     }
   }
