@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Domain.Enums;
 
 namespace Domain
@@ -8,6 +9,13 @@ namespace Domain
     public string Title { get; set; } = string.Empty;
     public DateTime DateCreated { get; set; }
     public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public List<Activity> Activities { get; set; } = new List<Activity>();
+
+    public void addActivities(Activity activity)
+    {
+      Activities.Add(activity);
+    }
+
     public double Balance
     {
       get
