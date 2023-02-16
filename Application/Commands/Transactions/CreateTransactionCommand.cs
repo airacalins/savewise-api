@@ -1,6 +1,7 @@
 using Application.Commands.Transactions.Dtos;
 using Application.Commands.Transactions.Interfaces;
 using Application.Repositories.TransactionRepository;
+using Domain;
 
 namespace Application.Commands.Transactions
 {
