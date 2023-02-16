@@ -12,12 +12,11 @@ namespace Application.Commands.Transactions
       _transactionRepository = transactionRepository;
 
     }
-    public async Task ExecuteCommand(Guid accountId, Guid id, UpdateTransactionDto input)
+    public async Task ExecuteCommand(Guid id, UpdateTransactionDto input)
     {
       var transaction = await _transactionRepository.GetById(id);
 
       if (transaction == null) throw new NullReferenceException();
-      if (transaction.AccountId != accountId) throw new NotImplementedException();
 
       transaction.TransactionType = input.TransactionType;
       transaction.Amount = input.Amount;
