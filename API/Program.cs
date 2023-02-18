@@ -1,5 +1,6 @@
 using Application.Commands.Accounts;
 using Application.Commands.Accounts.Interfaces;
+using Application.Commands.Activities;
 using Application.Commands.Transactions;
 using Application.Commands.Transactions.Interfaces;
 using Application.Contexts;
@@ -41,6 +42,9 @@ builder.Services.AddScoped<IGetTransactionCommand, GetTransactionCommand>();
 builder.Services.AddScoped<ICreateTransactionCommand, CreateTransactionCommand>();
 builder.Services.AddScoped<IUpdateTransactionCommand, UpdateTransactionCommand>();
 builder.Services.AddScoped<IDeleteTransactionCommand, DeleteTransactionCommand>();
+
+// Dependency Injection - Activity
+builder.Services.AddScoped<IGetActivitiesCommand, GetActivitiesCommand>();
 
 // Dependency Injection - Repository
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();

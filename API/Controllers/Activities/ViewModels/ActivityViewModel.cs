@@ -1,11 +1,10 @@
-using Application.Commands.Transactions.Dtos;
-using Domain;
+using Application.Commands.Activities.Dtos;
 
-namespace Application.Commands.Activities.Dtos
+namespace API.Controllers.Activities.ViewModels
 {
-    public class ActivityDto
+    public class ActivityViewModel
     {
-        public ActivityDto(Activity item)
+        public ActivityViewModel(ActivityDto item)
         {
             AccountId = item.AccountId;
             TransactionId = item.TransactionId;
