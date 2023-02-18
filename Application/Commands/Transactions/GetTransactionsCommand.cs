@@ -11,10 +11,11 @@ namespace Application.Commands.Transactions.Interfaces
         {
             _transactionRespository = transactionRespository;
         }
-        public async Task<List<TransactionDto>> ExecuteCommand()
+        public async Task<List<TransactionDto>> ExecuteCommand(Guid accountId)
         {
             var transactions = await _transactionRespository.GetAll();
-            return transactions.Select(transaction => new TransactionDto(transaction)).ToList();
+            var accountTransactions = transactions.Where(transaction => transaction.AccountId == accountId);
+            return accountTransactions.Select(transaction => new TransactionDto(transaction)).ToList();
         }
     }
 }
