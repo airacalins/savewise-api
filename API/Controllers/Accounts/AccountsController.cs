@@ -1,6 +1,5 @@
 using API.Controllers.Accounts.InputModels;
 using API.Controllers.Accounts.ViewModel;
-using API.Controllers.Accounts.ViewModels;
 using API.Controllers.InputModels;
 using Application.Commands.Accounts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -41,10 +40,10 @@ namespace API.Controllers.Accounts
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AccountWithTransactionsViewModel>> Get([FromRoute] Guid id)
+        public async Task<ActionResult<AccountViewModel>> Get([FromRoute] Guid id)
         {
             var account = await _getAccountCommand.ExecuteCommand(id);
-            return new AccountWithTransactionsViewModel(account);
+            return new AccountViewModel(account);
         }
 
         [HttpPost]
