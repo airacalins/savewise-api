@@ -2,6 +2,7 @@ using Application.Commands.Transactions.Interfaces;
 using Application.Repositories.ActivityRepository;
 using Application.Repositories.ActivityRepository.Dtos;
 using Application.Repositories.TransactionRepository;
+using Domain.Enums;
 
 namespace Application.Commands.Transactions
 {
@@ -25,6 +26,7 @@ namespace Application.Commands.Transactions
       {
         AccountId = transaction.AccountId,
         TransactionId = id,
+        ActivityType = ActivityType.DeleteTransaction,
         DateCreated = DateTime.Now,
       };
 

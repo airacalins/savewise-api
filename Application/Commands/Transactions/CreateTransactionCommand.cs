@@ -4,6 +4,7 @@ using Application.Repositories.ActivityRepository;
 using Application.Repositories.ActivityRepository.Dtos;
 using Application.Repositories.TransactionRepository;
 using Domain;
+using Domain.Enums;
 
 namespace Application.Commands.Transactions
 {
@@ -33,6 +34,7 @@ namespace Application.Commands.Transactions
       {
         AccountId = accountId,
         TransactionId = transaction.Id,
+        ActivityType = ActivityType.CreateTransaction,
         DateCreated = DateTime.Now,
       };
 
