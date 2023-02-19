@@ -10,7 +10,6 @@ namespace Domain
     public Guid TransactionId { get; set; }
     public Transaction Transaction { get; set; } = default!;
     public ActivityType ActivityType { get; set; }
-    public bool IsArchived { get; set; }
     public DateTime DateCreated { get; set; }
   }
 }
