@@ -26,7 +26,7 @@ namespace Application.Commands.Transactions
       {
         AccountId = transaction.AccountId,
         TransactionId = id,
-        ActivityType = ActivityType.DeleteTransaction,
+        ActivityType = ActivityType.Delete,
         DateCreated = DateTime.Now,
       };
 

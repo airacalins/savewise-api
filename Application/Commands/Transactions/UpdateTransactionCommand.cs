@@ -34,7 +34,7 @@ namespace Application.Commands.Transactions
       {
         AccountId = transaction.AccountId,
         TransactionId = transaction.Id,
-        ActivityType = ActivityType.UpdateTransaction,
+        ActivityType = ActivityType.Update,
         DateCreated = DateTime.Now,
       };
 
