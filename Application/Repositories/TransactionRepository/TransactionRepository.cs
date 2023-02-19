@@ -40,7 +40,8 @@ namespace Application.Repositories.TransactionRepository
     {
       var transaction = await GetById(id);
 
-      _context.Transactions.Remove(transaction);
+      if (transaction == null) throw new NullReferenceException();
+      transaction.IsArchived = true;
     }
 
     public async Task SaveChangesAsync()

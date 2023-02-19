@@ -15,7 +15,7 @@ namespace Application.Commands.Accounts
     public async Task<List<AccountDto>> ExecuteCommand()
     {
       var accounts = await _accountRepository.GetAll();
-      return accounts.Select(account => new AccountDto(account)).ToList();
+      return accounts.Where(account => !account.IsArchived).Select(account => new AccountDto(account)).ToList();
     }
   }
 }

@@ -4,19 +4,21 @@ using Application.Repositories.AccountRepository;
 
 namespace Application.Commands.Accounts
 {
-    public class GetAccountCommand : IGetAccountCommand
+  public class GetAccountCommand : IGetAccountCommand
+  {
+    private readonly IAccountRepository _accountRepository;
+
+    public GetAccountCommand(IAccountRepository accountRepository)
     {
-        private readonly IAccountRepository _accountRepository;
-
-        public GetAccountCommand(IAccountRepository accountRepository)
-        {
-            _accountRepository = accountRepository;
-        }
-
-        public async Task<AccountDto> ExecuteCommand(Guid id)
-        {
-            var account = await _accountRepository.GetById(id);
-            return new AccountDto(account);
-        }
+      _accountRepository = accountRepository;
     }
+
+    public async Task<AccountDto> ExecuteCommand(Guid id)
+    {
+      var account = await _accountRepository.GetById(id);
+      if (account.IsArchived) throw new NotImplementedException();
+
+      return new AccountDto(account);
+    }
+  }
 }
