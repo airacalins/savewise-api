@@ -2,8 +2,11 @@ namespace Domain.Enums
 {
   public enum ActivityType
   {
-    Create,
-    Update,
-    Delete
+    CreateAccount,
+    UpdateAccount,
+    DeleteAccount,
+    CreateTransaction,
+    UpdateTransaction,
+    DeleteTransaction,
   }
 }
