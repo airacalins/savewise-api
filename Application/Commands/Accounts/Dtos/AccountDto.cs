@@ -1,19 +1,22 @@
+using Application.Commands.Transactions.Dtos;
 using Domain;
 
 namespace Application.Commands.Accounts.Dtos
 {
-    public class AccountDto
+  public class AccountDto
+  {
+    public AccountDto(Account account)
     {
-        public AccountDto(Account account)
-        {
-            Id = account.Id;
-            Title = account.Title;
-            Balance = account.Balance;
-            DateCreated = account.DateCreated;
-        }
-        public Guid Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public double Balance { get; set; }
-        public DateTime DateCreated { get; set; }
+      Id = account.Id;
+      Title = account.Title;
+      Balance = account.Balance;
+      Transactions = account.Transactions.Select(transaction => new TransactionDto(transaction)).ToList();
+      DateCreated = account.DateCreated;
     }
+    public Guid Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public double Balance { get; set; }
+    public List<TransactionDto> Transactions { get; set; }
+    public DateTime DateCreated { get; set; }
+  }
 }
