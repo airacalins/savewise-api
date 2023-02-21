@@ -18,11 +18,7 @@ namespace Application.Repositories.AccountRepository
 
     public async Task<Account> GetById(Guid id)
     {
-      var account = await _context.Accounts.Include(transaction => transaction.Transactions).FirstOrDefaultAsync(account => account.Id == id);
-
-      if (account == null) throw new NullReferenceException();
-
-      return account;
+      return await _context.Accounts.Include(transaction => transaction.Transactions).FirstOrDefaultAsync(account => account.Id == id && !account.IsArchived);
     }
 
     public void Add(Account item)
@@ -33,16 +29,12 @@ namespace Application.Repositories.AccountRepository
     public async Task Update(Account item)
     {
       var account = await GetById(item.Id);
-
-      if (account == null) throw new NullReferenceException();
       account = item;
     }
 
     public async Task Delete(Guid id)
     {
       var account = await GetById(id);
-
-      if (account == null) throw new NullReferenceException();
       account.IsArchived = true;
     }
 

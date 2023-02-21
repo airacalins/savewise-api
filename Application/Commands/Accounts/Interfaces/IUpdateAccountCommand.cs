@@ -1,9 +1,10 @@
 using Application.Commands.Accounts.Dtos;
+using Application.Core;
 
 namespace Application.Commands.Accounts.Interfaces
 {
-    public interface IUpdateAccountCommand
-    {
-        Task ExecuteCommand(Guid id, UpdateAccountDto account);
-    }
+  public interface IUpdateAccountCommand
+  {
+    Task<Result<bool>> ExecuteCommand(Guid id, UpdateAccountDto account);
+  }
 }

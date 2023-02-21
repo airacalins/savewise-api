@@ -1,9 +1,10 @@
 using Application.Commands.Accounts.Dtos;
+using Application.Core;
 
 namespace Application.Commands.Accounts.Interfaces
 {
-    public interface IGetAccountCommand
-    {
-        Task<AccountDto> ExecuteCommand(Guid Id);
-    }
+  public interface IGetAccountCommand
+  {
+    Task<Result<AccountDto>> ExecuteCommand(Guid Id);
+  }
 }

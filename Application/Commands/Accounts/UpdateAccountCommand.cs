@@ -1,5 +1,6 @@
 using Application.Commands.Accounts.Dtos;
 using Application.Commands.Accounts.Interfaces;
+using Application.Core;
 using Application.Repositories.AccountRepository;
 
 namespace Application.Commands.Accounts
@@ -13,14 +14,18 @@ namespace Application.Commands.Accounts
       _accountRepository = accountRepository;
     }
 
-    public async Task ExecuteCommand(Guid id, UpdateAccountDto item)
+    public async Task<Result<bool>> ExecuteCommand(Guid id, UpdateAccountDto input)
     {
+      if (string.IsNullOrEmpty(input.Title)) return Result<bool>.Failure("Title is required");
+
       var account = await _accountRepository.GetById(id);
 
-      if (item == null) throw new NullReferenceException();
+      if (account == null) return Result<bool>.Failure("Account Not Found");
 
-      account.Title = item.Title;
+      account.Title = input.Title;
       await _accountRepository.SaveChangesAsync();
+
+      return Result<bool>.Success(true);
     }
   }
 }
