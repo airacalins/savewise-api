@@ -36,23 +36,23 @@ namespace API.Controllers.Accounts
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-      var accounts = await _getAccountsCommand.ExecuteCommand();
-      var result = accounts.Value
+      var result = await _getAccountsCommand.ExecuteCommand();
+      var accounts = result.Value
         .Select(account => new AccountViewModel(account))
         .ToList();
 
-      return Ok(result);
+      return Ok(accounts);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
-      var account = await _getAccountCommand.ExecuteCommand(id);
+      var result = await _getAccountCommand.ExecuteCommand(id);
 
-      if (!account.IsSuccess) return BadRequest(account.Error);
+      if (!result.IsSuccess) return BadRequest(result.Error);
 
-      var result = new AccountViewModel(account.Value);
-      return Ok(result);
+      var account = new AccountViewModel(result.Value);
+      return Ok(account);
     }
 
     [HttpPost]

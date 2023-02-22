@@ -15,15 +15,12 @@ namespace Application.Repositories.TransactionRepository
 
     public Task<List<Transaction>> GetAll()
     {
-      return _context.Transactions.ToListAsync();
+      return _context.Transactions.Where(transaction => !transaction.IsArchived).ToListAsync();
     }
 
     public async Task<Transaction> GetById(Guid id)
     {
-      var transaction = await _context.Transactions.FirstOrDefaultAsync(transaction => transaction.Id == id);
-
-      if (transaction == null) throw new NullReferenceException();
-      return transaction;
+      return await _context.Transactions.FirstOrDefaultAsync(transaction => transaction.Id == id && !transaction.IsArchived);
     }
 
     public void Add(Transaction item)
@@ -34,13 +31,12 @@ namespace Application.Repositories.TransactionRepository
     public async Task Update(Transaction item)
     {
       var transaction = await GetById(item.Id);
+      transaction = item;
     }
 
     public async Task Delete(Guid id)
     {
       var transaction = await GetById(id);
-
-      if (transaction == null) throw new NullReferenceException();
       transaction.IsArchived = true;
     }
 

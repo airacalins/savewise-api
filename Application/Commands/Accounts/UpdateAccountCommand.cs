@@ -20,7 +20,7 @@ namespace Application.Commands.Accounts
 
       var account = await _accountRepository.GetById(id);
 
-      if (account == null) return Result<bool>.Failure("Account Not Found");
+      if (account == null) return Result<bool>.Failure("Account not found");
 
       account.Title = input.Title;
       await _accountRepository.SaveChangesAsync();

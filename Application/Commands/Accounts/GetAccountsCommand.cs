@@ -17,7 +17,7 @@ namespace Application.Commands.Accounts
     {
       var accounts = await _accountRepository.GetAll();
 
-      var data = accounts.Where(account => !account.IsArchived).Select(account => new AccountDto(account)).ToList();
+      var data = accounts.Select(account => new AccountDto(account)).ToList();
 
       return Result<List<AccountDto>>.Success(data);
     }

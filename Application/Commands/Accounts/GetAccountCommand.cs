@@ -18,7 +18,7 @@ namespace Application.Commands.Accounts
     {
       var account = await _accountRepository.GetById(id);
 
-      if (account == null) return Result<AccountDto>.Failure("Account not found.");
+      if (account == null) return Result<AccountDto>.Failure("Account not found");
 
       var data = new AccountDto(account);
 

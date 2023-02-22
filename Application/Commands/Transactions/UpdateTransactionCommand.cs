@@ -1,5 +1,6 @@
 using Application.Commands.Transactions.Dtos;
 using Application.Commands.Transactions.Interfaces;
+using Application.Core;
 using Application.Repositories.AccountRepository;
 using Application.Repositories.ActivityRepository;
 using Application.Repositories.ActivityRepository.Dtos;
@@ -20,11 +21,12 @@ namespace Application.Commands.Transactions
       _transactionRepository = transactionRepository;
       _activityRepository = activityRepository;
     }
-    public async Task ExecuteCommand(Guid id, UpdateTransactionDto input)
+    public async Task<Result<bool>> ExecuteCommand(Guid id, UpdateTransactionDto input)
     {
       var transaction = await _transactionRepository.GetById(id);
 
-      if (transaction == null) throw new NullReferenceException();
+      if (transaction == null) return Result<bool>.Failure("Transaction not found");
+      if (input.Amount <= 0) return Result<bool>.Failure("Amount must be greater than zero");
 
       transaction.TransactionType = input.TransactionType;
       transaction.Amount = input.Amount;
@@ -40,6 +42,8 @@ namespace Application.Commands.Transactions
 
       _activityRepository.Add(activity.ToActivityEntity());
       await _transactionRepository.SaveChangesAsync();
+
+      return Result<bool>.Success(true);
     }
   }
 }

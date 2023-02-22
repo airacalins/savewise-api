@@ -13,7 +13,7 @@ namespace Application.Repositories.AccountRepository
     }
     public async Task<List<Account>> GetAll()
     {
-      return await _context.Accounts.Include(transaction => transaction.Transactions).ToListAsync();
+      return await _context.Accounts.Include(transaction => transaction.Transactions).Where(account => !account.IsArchived).ToListAsync();
     }
 
     public async Task<Account> GetById(Guid id)
