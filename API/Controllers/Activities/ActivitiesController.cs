@@ -4,22 +4,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Activities
 {
-    [ApiController]
-    [Route("api/accounts/{accountId}/[controller]")]
+  [ApiController]
+  [Route("api/accounts/{accountId}/[controller]")]
 
-    public class ActivitiesController : ControllerBase
+  public class ActivitiesController : ControllerBase
+  {
+    private readonly IGetActivitiesCommand _getActivitiesCommand;
+    public ActivitiesController(IGetActivitiesCommand getActivitiesCommand)
     {
-        private readonly IGetActivitiesCommand _getActivitiesCommand;
-        public ActivitiesController(IGetActivitiesCommand getActivitiesCommand)
-        {
-            _getActivitiesCommand = getActivitiesCommand;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<ActivityViewModel>>> GetAll(Guid accountId)
-        {
-            var activities = await _getActivitiesCommand.ExecuteCommand(accountId);
-            return activities.Select(activity => new ActivityViewModel(activity)).ToList();
-        }
+      _getActivitiesCommand = getActivitiesCommand;
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll(Guid accountId)
+    {
+      var result = await _getActivitiesCommand.ExecuteCommand(accountId);
+
+      if (!result.IsSuccess) return BadRequest(result.Error);
+
+      var accountActivities = result.Value.Select(activity => new ActivityViewModel(activity)).ToList();
+
+      return Ok(accountActivities);
+    }
+  }
 }
