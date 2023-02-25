@@ -1,22 +1,17 @@
-using Application.Commands.Accounts;
-using Application.Commands.Accounts.Interfaces;
-using Application.Commands.Activities;
-using Application.Commands.Transactions;
-using Application.Commands.Transactions.Interfaces;
+using Application.Commands;
 using Application.Contexts;
-using Application.Repositories.AccountRepository;
-using Application.Repositories.ActivityRepository;
-using Application.Repositories.TransactionRepository;
+using Application.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 // Database Connection
@@ -26,30 +21,10 @@ builder.Services.AddDbContext<DataContext>(opt =>
     }
 );
 
-// Dependency Injection
+// Dependency Injections
 builder.Services.AddScoped<IDataContext, DataContext>();
-
-// Dependency Injection - Account
-builder.Services.AddScoped<IGetAccountsCommand, GetAccountsCommand>();
-builder.Services.AddScoped<IGetAccountCommand, GetAccountCommand>();
-builder.Services.AddScoped<ICreateAccountCommand, CreateAccountCommand>();
-builder.Services.AddScoped<IUpdateAccountCommand, UpdateAccountCommand>();
-builder.Services.AddScoped<IDeleteAccountCommand, DeleteAccountCommand>();
-
-// Dependency Injection - Transaction
-builder.Services.AddScoped<IGetTransactionsCommand, GetTransactionsCommand>();
-builder.Services.AddScoped<IGetTransactionCommand, GetTransactionCommand>();
-builder.Services.AddScoped<ICreateTransactionCommand, CreateTransactionCommand>();
-builder.Services.AddScoped<IUpdateTransactionCommand, UpdateTransactionCommand>();
-builder.Services.AddScoped<IDeleteTransactionCommand, DeleteTransactionCommand>();
-
-// Dependency Injection - Activity
-builder.Services.AddScoped<IGetActivitiesCommand, GetActivitiesCommand>();
-
-// Dependency Injection - Repository
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+builder.Services.AddCommands();
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 
