@@ -1,44 +1,84 @@
-using Application.Commands;
+using API.Extensions;
 using Application.Contexts;
-using Application.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+  var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+  opt.Filters.Add(new AuthorizeFilter(policy));
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+// builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+  c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+  c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+  {
+    Name = "Authorization",
+    Type = SecuritySchemeType.ApiKey,
+    Scheme = "Bearer",
+    BearerFormat = "JWT",
+    In = ParameterLocation.Header,
+    Description = "JWT Authorization header using the Bearer scheme."
+  });
+  c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+        new string[] {}
+        }
+    });
+});
 
 // Database Connection
-builder.Services.AddDbContext<DataContext>(opt =>
+builder.Services
+    .AddDbContext<DataContext>(opt =>
     {
-        opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+      opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
 );
 
 // Dependency Injections
 builder.Services.AddScoped<IDataContext, DataContext>();
-builder.Services.AddCommands();
-builder.Services.AddRepositories();
+builder.Services.AddCommandServices();
+builder.Services.AddRepositoryServices();
+
+// Authentication and Authorization
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
