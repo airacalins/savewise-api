@@ -32,6 +32,7 @@ namespace API.Controllers.Users
     public async Task<ActionResult<UserViewModel>> Login(LoginUserInputModel input)
     {
       var user = await _userManager.FindByEmailAsync(input.Email);
+      var token = _tokenService.CreateToken(user);
 
       if (user == null) return Unauthorized();
 
@@ -39,11 +40,8 @@ namespace API.Controllers.Users
 
       if (!result) return Unauthorized();
 
-      return new UserViewModel
-      {
-        Username = user.UserName,
-        Token = _tokenService.CreateToken(user),
-      };
+      return new UserViewModel(user.UserName, token);
+
     }
 
     [HttpPost("register")]
@@ -60,29 +58,22 @@ namespace API.Controllers.Users
       }
 
       var user = input.ToUserEntity();
+      var token = _tokenService.CreateToken(user);
 
       var result = await _userManager.CreateAsync(user, input.Password);
 
       if (!result.Succeeded) return BadRequest(result.Errors);
 
-      return new UserViewModel
-      {
-        Username = input.Username,
-        Token = _tokenService.CreateToken(user)
-      };
+      return new UserViewModel(input.Username, token);
     }
 
     [HttpGet]
     public async Task<ActionResult<UserViewModel>> GetCurrentUser()
     {
       var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+      var token = _tokenService.CreateToken(user);
 
-      return new UserViewModel
-      {
-        Username = user.UserName,
-        Token = _tokenService.CreateToken(user)
-      };
-
+      return new UserViewModel(user.UserName, token);
     }
   }
 }
