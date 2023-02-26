@@ -6,6 +6,8 @@ namespace Domain
   public class Account
   {
     public Guid Id { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public User User { get; set; } = default!;
     public string Title { get; set; } = string.Empty;
     public DateTime DateCreated { get; set; }
     public List<Transaction> Transactions { get; set; } = new List<Transaction>();

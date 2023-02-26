@@ -1,5 +1,6 @@
 using API.Controllers.Transactions.InputModels;
 using Application.Commands.Transactions.Interfaces;
+using Application.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Transactions
@@ -7,7 +8,7 @@ namespace API.Controllers.Transactions
   [ApiController]
   [Route("api/accounts/{accountId}/[controller]")]
 
-  public class TransactionsController : ControllerBase
+  public class TransactionsController : BaseController
   {
     private readonly IGetTransactionsCommand _getTransactionsCommand;
     private readonly IGetTransactionCommand _getTransactionCommand;
@@ -30,27 +31,25 @@ namespace API.Controllers.Transactions
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromRoute] Guid accountId)
+    public async Task<ActionResult<List<TransactionViewModel>>> GetAll([FromRoute] Guid accountId)
     {
       var result = await _getTransactionsCommand.ExecuteCommand(accountId);
 
       if (!result.IsSuccess) return BadRequest(result.Error);
 
-      var transactions = result.Value.Select(transaction => new TransactionViewModel(transaction)).ToList();
-
-      return Ok(transactions);
+      var data = result.Value.Select(transaction => new TransactionViewModel(transaction)).ToList();
+      return Ok(data);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get([FromRoute] Guid accountId, [FromRoute] Guid id)
+    public async Task<ActionResult<TransactionViewModel>> Get([FromRoute] Guid accountId, [FromRoute] Guid id)
     {
       var result = await _getTransactionCommand.ExecuteCommand(accountId, id);
 
       if (!result.IsSuccess) return BadRequest(result.Error);
 
-      var transaction = new TransactionViewModel(result.Value);
-
-      return Ok(transaction);
+      var data = new TransactionViewModel(result.Value);
+      return Ok(data);
     }
 
     [HttpPost]
@@ -64,7 +63,7 @@ namespace API.Controllers.Transactions
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTransactionInputModel input)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTransactionInputModel input)
     {
       var result = await _updateTransactionCommand.ExecuteCommand(id, input.ToUpdateTransactionDto());
 
