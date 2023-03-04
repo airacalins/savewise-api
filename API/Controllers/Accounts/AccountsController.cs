@@ -3,6 +3,7 @@ using API.Controllers.Accounts.ViewModel;
 using API.Controllers.InputModels;
 using Application.Commands.Accounts.Interfaces;
 using Application.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Accounts
@@ -33,6 +34,7 @@ namespace API.Controllers.Accounts
       _deleteAccountCommand = deleteAccountCommand;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<List<AccountViewModel>>> GetAll()
     {
@@ -40,10 +42,10 @@ namespace API.Controllers.Accounts
 
       if (!result.IsSuccess) return BadRequest(result.Error);
 
-      var userId = GetCurrentLoggedInUserId();
+      // var userId = GetCurrentLoggedInUserId();
 
       var data = result.Value
-        .Where(account => account.UserId == userId)
+        // .Where(account => account.UserId == userId)
         .Select(account => new AccountViewModel(account))
         .ToList();
       return Ok(data);

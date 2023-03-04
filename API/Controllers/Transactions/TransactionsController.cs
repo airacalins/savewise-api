@@ -1,6 +1,7 @@
 using API.Controllers.Transactions.InputModels;
 using Application.Commands.Transactions.Interfaces;
 using Application.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Transactions
@@ -52,6 +53,7 @@ namespace API.Controllers.Transactions
       return Ok(data);
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Create([FromRoute] Guid accountId, CreateTransactionInputModel item)
     {

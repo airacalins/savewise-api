@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers.Users
 {
-  [AllowAnonymous]
   [ApiController]
   [Route("api/[controller]")]
 
@@ -28,6 +27,7 @@ namespace API.Controllers.Users
       _tokenService = tokenService;
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<UserViewModel>> Login(LoginUserInputModel input)
     {
@@ -44,6 +44,7 @@ namespace API.Controllers.Users
 
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<UserViewModel>> Register(RegisterUserInputModel input)
     {
@@ -67,6 +68,7 @@ namespace API.Controllers.Users
       return new UserViewModel(input.Username, token);
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<UserViewModel>> GetCurrentUser()
     {
